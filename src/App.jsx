@@ -9,6 +9,7 @@ function App() {
   const [tovalue, setValueto] = useState('')
   const [msg, setMsg] = useState('')
   const [msg1, setMsg1] = useState("")
+
   useEffect(() => {
     fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json')
       .then((response) => response.json())
@@ -25,7 +26,7 @@ function App() {
         fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${currencyfrom}.json`)
           .then((response) => response.json())
           .then((data) => {
-           setMsg(`${fromvalue} ${currencyfrom} is `)
+            setMsg(`${fromvalue} ${currencyfrom} is `)
             setValueto(fromvalue * data[currencyfrom][currencyto])
             setMsg1(`${currencyto}`)
           })
@@ -38,45 +39,47 @@ function App() {
       setFromvalue(value);
     }
   };
-  const image =()=>{
+  const image = () => {
     setCurrencyfrom(currencyto)
     setcurrencyto(currencyfrom)
   }
   return (
-    <>
+    
       <div id="main">
         <h1>Currency Converter</h1>
+        <div id="con2">
         <div id="first">
           <input type='text' placeholder='please enter value' value={fromvalue} onChange={checkvalue}></input>
+        </div>
+        <div id="second">
+          <div>
+            <select onChange={(ee) => setCurrencyfrom(ee.target.value)} value={currencyfrom}>
+              {Object.entries(currencies).map(([code, name]) =>
+                <option key={code} value={code}>
+                  {name}
+                </option>)}
+            </select>
           </div>
-          <div id="second">
-            <div>
-              <select onChange={(ee) => setCurrencyfrom(ee.target.value)} value={currencyfrom}>
-                {Object.entries(currencies).map(([code, name]) =>
-                  <option key={code} value={code}>
-                    {name}
-                  </option>)}
-              </select>
-            </div>
-            <div>
-              <img src='https://png.pngtree.com/png-vector/20220609/ourmid/pngtree-isolated-reload-arrow-icon-from-white-background-png-image_4819629.png'
-                width={"40"} onClick={image}></img>
-            </div>
-            <div>
-              <select onChange={(event) => { setcurrencyto(event.target.value) }} value={currencyto}>
-                {Object.entries(currencies).map(([code, name]) =>
-                  <option key={code} value={code}>
-                    {name}
-                  </option>
-                )}
-              </select>
-            </div>
+          <div>
+            <img src='https://png.pngtree.com/png-vector/20220609/ourmid/pngtree-isolated-reload-arrow-icon-from-white-background-png-image_4819629.png'
+              width={"40"} onClick={image}></img>
           </div>
-          <input type='tel' disabled value={`Converted value is ${tovalue} ${msg1}` } id="ina"></input>
-          <button onClick={check}>caluclate</button><br/>
-          <input type='tel' disabled value={`${msg} ${tovalue} ${msg1}`} id="in"></input>
+          <div>
+            <select onChange={(event) => { setcurrencyto(event.target.value) }} value={currencyto}>
+              {Object.entries(currencies).map(([code, name]) =>
+                <option key={code} value={code}>
+                  {name}
+                </option>
+              )}
+            </select>
+          </div>
+        </div>
+        <button onClick={check}>caluclate</button><br />
+        <input type='tel' disabled value={`Converted value is ${tovalue} ${currencyto}`} id="ina"></input>
+        <input type='tel' disabled value={`${msg} ${tovalue} ${msg1}`} id="in"></input>
+        </div>
       </div>
-    </>
+    
   )
 }
 
